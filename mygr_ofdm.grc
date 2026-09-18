@@ -767,7 +767,12 @@ blocks:
     alias: ''
     comment: 'The bandwidth here is small because most of the tuning
 
-      is already done by the pilot signal tune.'
+      is already done by the pilot signal tune.
+
+
+      Ideally we would have the main tuner signal "locked" so that
+
+      the costas loop can reset its state.'
     maxoutbuf: '0'
     minoutbuf: '0'
     order: '4'
@@ -2844,7 +2849,7 @@ blocks:
   parameters:
     affinity: ''
     alias: ''
-    alpha: '0.0001'
+    alpha: '0.01'
     comment: ''
     maxoutbuf: '0'
     minoutbuf: '0'
