@@ -61,7 +61,7 @@ blocks:
   id: variable_qtgui_range
   parameters:
     comment: ''
-    gui_hint: tabs@0
+    gui_hint: 0,0
     label: ''
     min_len: '200'
     orient: QtCore.Qt.Horizontal
@@ -527,7 +527,7 @@ blocks:
     max_iter: '4000'
     maxoutbuf: '0'
     minoutbuf: '0'
-    scale: 1/1000*248.8
+    scale: 1/1000*1/(2*math.pi)*samp_rate*sps
     type: float
     vlen: '1'
   states:
@@ -579,7 +579,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    const: 1/(2*3.141592)*samp_rate*sps/64
+    const: 1/(2*math.pi)*samp_rate*sps
     maxoutbuf: '0'
     minoutbuf: '0'
     type: float
@@ -765,12 +765,14 @@ blocks:
   parameters:
     affinity: ''
     alias: ''
-    comment: ''
+    comment: 'The bandwidth here is small because most of the tuning
+
+      is already done by the pilot signal tune.'
     maxoutbuf: '0'
     minoutbuf: '0'
     order: '4'
     use_snr: 'False'
-    w: 0.0628*2
+    w: 2*math.pi/200
   states:
     bus_sink: false
     bus_source: false
@@ -784,7 +786,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    constellation: digital.constellation_bpsk().base()
+    constellation: digital.constellation_qpsk().base()
     damping: '1.0'
     loop_bw: '0.06283'
     max_dev: '0.5'
@@ -853,8 +855,9 @@ blocks:
       \ input_items[0]\n        dst = output_items[0]\n\n        n = len(src)\n  \
       \      center = self.N // 2\n        dst.fill(0)\n        dst[:, center] = 1.0\
       \ + 0.0j\n        for i in range(self.N):\n            if abs(i - center) >=\
-      \ 5:\n                dst[:, i] = self.mag*(random.random() + random.random()\
-      \ * 1.0j)\n        dst[:, self.M] = src\n\n        return n\n"
+      \ 5:\n                #dst[:, i] = self.mag*(random.random() + random.random()\
+      \ * 1.0j)\n                dst[:, i] = self.mag * ( np.random.random(n) + 1.0j\
+      \ * np.random.random(n))\n        dst[:, self.M] = src\n\n        return n\n"
     affinity: ''
     alias: ''
     comment: ''
@@ -1046,7 +1049,7 @@ blocks:
     maxoutbuf: '0'
     minoutbuf: '0'
     samp_delay: '0'
-    taps: firdes.low_pass(1,samp_rate*sps//buckets,1,1)
+    taps: firdes.low_pass(1,samp_rate*sps,1,1)
     type: fff
   states:
     bus_sink: false
@@ -2323,7 +2326,7 @@ blocks:
     name: '""'
     nconnections: '1'
     size: '1024'
-    srate: samp_rate*sps//buckets
+    srate: samp_rate*sps
     stemplot: 'False'
     style1: '1'
     style10: '1'
