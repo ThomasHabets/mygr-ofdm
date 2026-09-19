@@ -896,9 +896,9 @@ blocks:
       is already done by the pilot signal tune.
 
 
-      Ideally we would have the main tuner signal "locked" so that
+      Ideally we would have the main tuner signal "locked"
 
-      the costas loop can reset its state.'
+      via a tag so that the costas loop can reset its state.'
     maxoutbuf: '0'
     minoutbuf: '0'
     order: '4'
