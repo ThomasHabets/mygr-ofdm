@@ -44,6 +44,22 @@ blocks:
     bus_structure: null
     coordinate: [1048, 16.0]
     rotation: 0
+    state: disabled
+- name: bucket
+  id: variable_qtgui_entry
+  parameters:
+    comment: ''
+    entry_signal: editingFinished
+    gui_hint: controls@0
+    label: ''
+    type: int
+    value: '5'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1344, 288.0]
+    rotation: 0
     state: enabled
 - name: buckets
   id: variable
@@ -57,11 +73,27 @@ blocks:
     coordinate: [928, 48.0]
     rotation: 0
     state: enabled
+- name: costas_bw
+  id: variable_qtgui_entry
+  parameters:
+    comment: ''
+    entry_signal: editingFinished
+    gui_hint: controls@2
+    label: ''
+    type: real
+    value: math.pi/100
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [3424, 552.0]
+    rotation: 0
+    state: enabled
 - name: freq_ofs
   id: variable_qtgui_range
   parameters:
     comment: ''
-    gui_hint: 0,0
+    gui_hint: controls@0
     label: ''
     min_len: '200'
     orient: QtCore.Qt.Horizontal
@@ -83,7 +115,7 @@ blocks:
   parameters:
     comment: ''
     entry_signal: editingFinished
-    gui_hint: tabs@0
+    gui_hint: controls@0
     label: ''
     type: real
     value: '0'
@@ -98,7 +130,7 @@ blocks:
   id: variable_qtgui_range
   parameters:
     comment: ''
-    gui_hint: tabs@0
+    gui_hint: controls@0
     label: ''
     min_len: '200'
     orient: QtCore.Qt.Horizontal
@@ -112,7 +144,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1144, 48.0]
+    coordinate: [1448, 288.0]
     rotation: 0
     state: enabled
 - name: probe_freq_ofs
@@ -131,11 +163,23 @@ blocks:
     coordinate: [1640, 1256.0]
     rotation: 0
     state: enabled
+- name: rf_samp_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: '1000000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [304, 8.0]
+    rotation: 0
+    state: enabled
 - name: rrc_beta
   id: variable_qtgui_range
   parameters:
     comment: ''
-    gui_hint: tabs@3
+    gui_hint: controls@1
     label: ''
     min_len: '200'
     orient: QtCore.Qt.Horizontal
@@ -214,7 +258,7 @@ blocks:
   parameters:
     comment: ''
     entry_signal: editingFinished
-    gui_hint: tabs@0
+    gui_hint: controls@0
     label: ''
     type: real
     value: '1'
@@ -222,14 +266,14 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [728, 72.0]
+    coordinate: [800, 96.0]
     rotation: 0
     state: enabled
 - name: ted_gain
   id: variable_qtgui_range
   parameters:
     comment: ''
-    gui_hint: tabs@3
+    gui_hint: controls@2
     label: ''
     min_len: '200'
     orient: QtCore.Qt.Horizontal
@@ -243,7 +287,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [3224, 216.0]
+    coordinate: [2984, 464.0]
     rotation: 0
     state: enabled
 - name: winwin
@@ -743,7 +787,7 @@ blocks:
     block_tags: 'False'
     comment: ''
     epsilon: '1.0'
-    freq_offset: float(freq_ofs)/(samp_rate*sps*buckets)
+    freq_offset: float(freq_ofs)/(rf_samp_rate)
     maxoutbuf: '0'
     minoutbuf: '0'
     noise_voltage: noise
@@ -754,6 +798,40 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [272, 1544.0]
+    rotation: 0
+    state: enabled
+- name: controls
+  id: qtgui_tab_widget
+  parameters:
+    alias: ''
+    comment: ''
+    gui_hint: 0,0
+    label0: Generator
+    label1: Shaping
+    label10: Tab 10
+    label11: Tab 11
+    label12: Tab 12
+    label13: Tab 13
+    label14: Tab 14
+    label15: Tab 15
+    label16: Tab 16
+    label17: Tab 17
+    label18: Tab 18
+    label19: Tab 19
+    label2: Symbol sync
+    label3: Tab 3
+    label4: Tab 4
+    label5: Tab 5
+    label6: Tab 6
+    label7: Tab 7
+    label8: Tab 8
+    label9: Tab 9
+    num_tabs: '3'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1392, 480.0]
     rotation: 0
     state: enabled
 - name: digital_chunks_to_symbols_xx_0
@@ -793,7 +871,7 @@ blocks:
     minoutbuf: '0'
     order: '4'
     use_snr: 'False'
-    w: 2*math.pi/200
+    w: costas_bw
   states:
     bus_sink: false
     bus_source: false
@@ -1506,7 +1584,7 @@ blocks:
     bus_structure: null
     coordinate: [2520.0, 848]
     rotation: 270
-    state: enabled
+    state: disabled
 - name: qtgui_const_sink_x_0_1_0
   id: qtgui_const_sink_x
   parameters:
@@ -1690,7 +1768,7 @@ blocks:
     bus_structure: null
     coordinate: [2848.0, 880]
     rotation: 270
-    state: enabled
+    state: disabled
 - name: qtgui_const_sink_x_0_1_1_0
   id: qtgui_const_sink_x
   parameters:
@@ -1970,7 +2048,7 @@ blocks:
     bus_structure: null
     coordinate: [2744.0, 880]
     rotation: 270
-    state: enabled
+    state: disabled
 - name: qtgui_freq_sink_x_1
   id: qtgui_freq_sink_x
   parameters:
@@ -1989,7 +2067,7 @@ blocks:
     autoscale: 'False'
     average: '1.0'
     axislabels: 'True'
-    bw: samp_rate*sps*buckets
+    bw: rf_samp_rate
     color1: '"blue"'
     color10: '"dark blue"'
     color2: '"red"'
@@ -2003,7 +2081,7 @@ blocks:
     comment: ''
     ctrlpanel: 'False'
     fc: '0'
-    fftsize: '1024'
+    fftsize: '2048'
     freqhalf: 'True'
     grid: 'False'
     gui_hint: tabs@1
@@ -2383,7 +2461,7 @@ blocks:
     alpha8: '1.0'
     alpha9: '1.0'
     axislabels: 'True'
-    bw: samp_rate*sps*buckets
+    bw: rf_samp_rate
     color1: '0'
     color10: '0'
     color2: '0'
@@ -2420,12 +2498,12 @@ blocks:
     showports: 'False'
     type: complex
     update_time: '0.10'
-    wintype: window.WIN_RECTANGULAR
+    wintype: window.WIN_BLACKMAN_hARRIS
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [736, 840.0]
+    coordinate: [240, 2016.0]
     rotation: 0
     state: enabled
 - name: qtgui_waterfall_sink_x_1
@@ -2488,6 +2566,50 @@ blocks:
     bus_structure: null
     coordinate: [960.0, 1192]
     rotation: 270
+    state: enabled
+- name: rational_resampler_xxx_0
+  id: rational_resampler_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'The 25/16 is the ratio of rf_samp_rate to
+
+      samp_rate*sps*buckets'
+    decim: '16'
+    fbw: '0'
+    interp: '25'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    taps: firdes.low_pass(25,16e6,320000,10000)
+    type: ccc
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [2336, 176.0]
+    rotation: 0
+    state: enabled
+- name: rational_resampler_xxx_1
+  id: rational_resampler_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'The 25/16 is the ratio of rf_samp_rate to
+
+      samp_rate*sps*buckets'
+    decim: '25'
+    fbw: '0'
+    interp: '16'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    taps: firdes.low_pass(16, 16e6, 320e3, 10e3)
+    type: ccc
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [472, 760.0]
+    rotation: 0
     state: enabled
 - name: root_raised_cosine_filter_0
   id: root_raised_cosine_filter
@@ -2651,7 +2773,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2368, 200.0]
+    coordinate: [2608, 200.0]
     rotation: 0
     state: enabled
 - name: virtual_sink_1
@@ -2703,7 +2825,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [464, 784.0]
+    coordinate: [272, 784.0]
     rotation: 0
     state: enabled
 - name: virtual_source_2
@@ -2742,7 +2864,7 @@ connections:
 - [blocks_stream_to_vector_0, '0', fft_vxx_1, '0']
 - [blocks_throttle2_0, '0', digital_chunks_to_symbols_xx_0, '0']
 - [blocks_vector_source_x_0, '0', blocks_packed_to_unpacked_xx_0, '0']
-- [blocks_vector_to_stream_1, '0', virtual_sink_0, '0']
+- [blocks_vector_to_stream_1, '0', rational_resampler_xxx_0, '0']
 - [channels_channel_model2_0, '0', virtual_sink_1, '0']
 - [channels_channel_model_0, '0', channels_channel_model2_0, '0']
 - [channels_channel_model_0, '0', virtual_sink_1, '0']
@@ -2764,6 +2886,9 @@ connections:
 - [low_pass_filter_0, '0', analog_quadrature_demod_cf_1, '0']
 - [low_pass_filter_0, '0', qtgui_waterfall_sink_x_1, '0']
 - [low_pass_filter_0_0, '0', low_pass_filter_0, '0']
+- [rational_resampler_xxx_0, '0', virtual_sink_0, '0']
+- [rational_resampler_xxx_1, '0', blocks_multiply_xx_1, '1']
+- [rational_resampler_xxx_1, '0', low_pass_filter_0_0, '0']
 - [root_raised_cosine_filter_0, '0', epy_block_0, '0']
 - [root_raised_cosine_filter_0, '0', qtgui_const_sink_x_0_0_0, '0']
 - [root_raised_cosine_filter_1, '0', blocks_delay_0, '0']
@@ -2781,9 +2906,8 @@ connections:
 - [virtual_source_0, '0', qtgui_const_sink_x_1, '0']
 - [virtual_source_0, '0', qtgui_freq_sink_x_1, '0']
 - [virtual_source_0, '0', qtgui_sink_x_0, '0']
-- [virtual_source_1, '0', blocks_multiply_xx_1, '1']
-- [virtual_source_1, '0', low_pass_filter_0_0, '0']
-- [virtual_source_1, '0', qtgui_waterfall_sink_x_0, '0']
+- [virtual_source_0, '0', qtgui_waterfall_sink_x_0, '0']
+- [virtual_source_1, '0', rational_resampler_xxx_1, '0']
 - [virtual_source_2, '0', blocks_stream_to_vector_0, '0']
 
 metadata:
