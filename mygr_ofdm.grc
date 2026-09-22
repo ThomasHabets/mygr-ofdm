@@ -81,12 +81,28 @@ blocks:
     gui_hint: controls@3
     label: ''
     type: real
-    value: '0.01'
+    value: '0.001'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
     coordinate: [1264, 944.0]
+    rotation: 0
+    state: enabled
+- name: coarse_phase_lock_alpha
+  id: variable_qtgui_entry
+  parameters:
+    comment: ''
+    entry_signal: editingFinished
+    gui_hint: controls@3
+    label: ''
+    type: real
+    value: '0.01'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [4080, 792.0]
     rotation: 0
     state: enabled
 - name: costas_bw
@@ -102,7 +118,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [3424, 552.0]
+    coordinate: [3432, 552.0]
     rotation: 0
     state: enabled
 - name: freq
@@ -247,6 +263,22 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [1640, 1256.0]
+    rotation: 0
+    state: enabled
+- name: probe_phase_ofs
+  id: variable_function_probe
+  parameters:
+    block_id: probe_phase_probe
+    comment: ''
+    function_args: ''
+    function_name: level
+    poll_rate: '10'
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [3872, 304.0]
     rotation: 0
     state: enabled
 - name: rf_samp_rate
@@ -575,7 +607,23 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [744, 624.0]
+    coordinate: [744, 664.0]
+    rotation: 0
+    state: enabled
+- name: blocks_complex_to_arg_0
+  id: blocks_complex_to_arg
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [3680, 256.0]
     rotation: 0
     state: enabled
 - name: blocks_delay_0
@@ -600,6 +648,26 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [2976, 832.0]
+    rotation: 0
+    state: enabled
+- name: blocks_delay_1
+  id: blocks_delay
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    delay: '5'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_ports: '1'
+    showports: 'False'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [3512, 896.0]
     rotation: 0
     state: enabled
 - name: blocks_int_to_float_0
@@ -784,6 +852,66 @@ blocks:
     coordinate: [2800, 1216.0]
     rotation: 0
     state: enabled
+- name: blocks_multiply_const_vxx_3
+  id: blocks_multiply_const_vxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    const: ' np.exp(-1j*((probe_phase_ofs + math.pi) % (2*math.pi) / 4))'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [3624, 896.0]
+    rotation: 0
+    state: enabled
+- name: blocks_multiply_const_vxx_3_0
+  id: blocks_multiply_const_vxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'Phase corrected from other
+
+      Symbol Sync.'
+    const: ' np.exp(-1j*((probe_phase_ofs + math.pi) % (2*math.pi) / 4))'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [2976, 1032.0]
+    rotation: 0
+    state: enabled
+- name: blocks_multiply_xx_0
+  id: blocks_multiply_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 'Phase of samples to the fourth power
+
+      makes us able to extract phase offset
+
+      despite having four constellation points.'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '4'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [3376, 208.0]
+    rotation: 0
+    state: enabled
 - name: blocks_multiply_xx_1
   id: blocks_multiply_xx
   parameters:
@@ -799,7 +927,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [984, 752.0]
+    coordinate: [984, 760.0]
     rotation: 0
     state: enabled
 - name: blocks_null_sink_0
@@ -833,7 +961,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [3288, 1088.0]
+    coordinate: [3304, 1160.0]
     rotation: 0
     state: enabled
 - name: blocks_null_sink_1_0
@@ -1152,6 +1280,33 @@ blocks:
     coordinate: [2920, 588.0]
     rotation: 0
     state: enabled
+- name: digital_symbol_sync_xx_0_0
+  id: digital_symbol_sync_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    constellation: digital.constellation_qpsk().base()
+    damping: '1.0'
+    loop_bw: symbol_sync_loop_bw
+    max_dev: '0.5'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    nfilters: '128'
+    osps: '1'
+    pfb_mf_taps: '[]'
+    resamp_type: digital.IR_MMSE_8TAP
+    sps: sps
+    ted_gain: ted_gain
+    ted_type: digital.TED_GARDNER
+    type: cc
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [3424, 972.0]
+    rotation: 0
+    state: enabled
 - name: epy_block_0
   id: epy_block
   parameters:
@@ -1403,6 +1558,19 @@ blocks:
     coordinate: [3304, 1200.0]
     rotation: 0
     state: disabled
+- name: import_0
+  id: import
+  parameters:
+    alias: ''
+    comment: ''
+    imports: import numpy as np
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [432, 32.0]
+    rotation: 0
+    state: enabled
 - name: low_pass_filter_0
   id: low_pass_filter
   parameters:
@@ -1463,6 +1631,20 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [1640, 944.0]
+    rotation: 0
+    state: enabled
+- name: probe_phase_probe
+  id: blocks_probe_signal_x
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    type: float
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [3872, 248.0]
     rotation: 0
     state: enabled
 - name: qtgui_const_sink_x_0
@@ -1866,7 +2048,7 @@ blocks:
     label1: Clocked
     label10: ''
     label2: Synced
-    label3: ''
+    label3: Phase corrected
     label4: ''
     label5: ''
     label6: ''
@@ -1885,7 +2067,7 @@ blocks:
     marker8: '0'
     marker9: '0'
     name: '"Clocked"'
-    nconnections: '2'
+    nconnections: '3'
     size: '100'
     style1: '1'
     style10: '0'
@@ -1922,7 +2104,99 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [3824, 600.0]
+    coordinate: [3800, 608.0]
+    rotation: 0
+    state: enabled
+- name: qtgui_const_sink_x_0_1_0_0
+  id: qtgui_const_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    autoscale: 'False'
+    axislabels: 'True'
+    color1: '"blue"'
+    color10: '"dark blue"'
+    color2: '"red"'
+    color3: '"green"'
+    color4: '"black"'
+    color5: '"cyan"'
+    color6: '"magenta"'
+    color7: '"yellow"'
+    color8: '"dark red"'
+    color9: '"dark green"'
+    comment: ''
+    grid: 'False'
+    gui_hint: tabs@3
+    label1: Clocked
+    label10: ''
+    label2: Synced
+    label3: ''
+    label4: ''
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    legend: 'True'
+    marker1: '0'
+    marker10: '0'
+    marker2: '0'
+    marker3: '0'
+    marker4: '0'
+    marker5: '0'
+    marker6: '0'
+    marker7: '0'
+    marker8: '0'
+    marker9: '0'
+    name: '"Phased"'
+    nconnections: '1'
+    size: '1000'
+    style1: '1'
+    style10: '0'
+    style2: '2'
+    style3: '0'
+    style4: '0'
+    style5: '0'
+    style6: '0'
+    style7: '0'
+    style8: '0'
+    style9: '0'
+    tr_chan: '0'
+    tr_level: '0.0'
+    tr_mode: qtgui.TRIG_MODE_FREE
+    tr_slope: qtgui.TRIG_SLOPE_POS
+    tr_tag: '""'
+    type: complex
+    update_time: '0.10'
+    width1: '1'
+    width10: '1'
+    width2: '1'
+    width3: '1'
+    width4: '1'
+    width5: '1'
+    width6: '1'
+    width7: '1'
+    width8: '1'
+    width9: '1'
+    xmax: '2'
+    xmin: '-2'
+    ymax: '2'
+    ymin: '-2'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [3792, 968.0]
     rotation: 0
     state: enabled
 - name: qtgui_const_sink_x_0_1_1_0
@@ -2556,6 +2830,69 @@ blocks:
     coordinate: [856, 1712.0]
     rotation: 0
     state: disabled
+- name: qtgui_number_sink_3
+  id: qtgui_number_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    autoscale: 'False'
+    avg: '0'
+    color1: ("black", "black")
+    color10: ("black", "black")
+    color2: ("black", "black")
+    color3: ("black", "black")
+    color4: ("black", "black")
+    color5: ("black", "black")
+    color6: ("black", "black")
+    color7: ("black", "black")
+    color8: ("black", "black")
+    color9: ("black", "black")
+    comment: ''
+    factor1: '1'
+    factor10: '1'
+    factor2: '1'
+    factor3: '1'
+    factor4: '1'
+    factor5: '1'
+    factor6: '1'
+    factor7: '1'
+    factor8: '1'
+    factor9: '1'
+    graph_type: qtgui.NUM_GRAPH_HORIZ
+    gui_hint: tabs@3
+    label1: ''
+    label10: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    max: math.pi
+    min: -math.pi
+    name: '"Phase offset"'
+    nconnections: '1'
+    type: float
+    unit1: ''
+    unit10: ''
+    unit2: ''
+    unit3: ''
+    unit4: ''
+    unit5: ''
+    unit6: ''
+    unit7: ''
+    unit8: ''
+    unit9: ''
+    update_time: '0.10'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [3872, 128.0]
+    rotation: 0
+    state: enabled
 - name: qtgui_sink_x_0
   id: qtgui_sink_x
   parameters:
@@ -2862,7 +3199,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [744, 528.0]
+    coordinate: [744, 576.0]
     rotation: 0
     state: enabled
 - name: rational_resampler_xxx_0
@@ -2963,6 +3300,24 @@ blocks:
     coordinate: [1272, 1024.0]
     rotation: 0
     state: enabled
+- name: single_pole_iir_filter_xx_2_0_0
+  id: single_pole_iir_filter_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha: coarse_phase_lock_alpha
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [3496, 248.0]
+    rotation: 0
+    state: enabled
 - name: single_pole_iir_filter_xx_3
   id: single_pole_iir_filter_xx
   parameters:
@@ -3032,7 +3387,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [3536, 352.0]
+    coordinate: [3632, 20.0]
     rotation: 0
     state: enabled
 - name: uhd_usrp_source_0
@@ -3507,7 +3862,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1136, 760.0]
+    coordinate: [1144, 768.0]
     rotation: 0
     state: enabled
 - name: virtual_source_0
@@ -3558,7 +3913,10 @@ connections:
 - [analog_random_source_x_0, '0', blocks_throttle2_0, '0']
 - [analog_random_source_x_2, '0', blocks_int_to_float_0, '0']
 - [analog_sig_source_x_0, '0', blocks_multiply_xx_1, '0']
+- [blocks_complex_to_arg_0, '0', probe_phase_probe, '0']
+- [blocks_complex_to_arg_0, '0', qtgui_number_sink_3, '0']
 - [blocks_delay_0, '0', blocks_keep_one_in_n_0, '0']
+- [blocks_delay_1, '0', blocks_multiply_const_vxx_3, '0']
 - [blocks_int_to_float_0, '0', single_pole_iir_filter_xx_3, '0']
 - [blocks_keep_m_in_n_0, '0', blocks_stream_to_vector_0, '0']
 - [blocks_keep_one_in_n_0, '0', qtgui_const_sink_x_0_1_1_0, '0']
@@ -3571,6 +3929,9 @@ connections:
 - [blocks_multiply_const_vxx_1, '0', blocks_vector_to_stream_1, '0']
 - [blocks_multiply_const_vxx_1_0, '0', rational_resampler_xxx_0, '0']
 - [blocks_multiply_const_vxx_2, '0', blocks_keep_one_in_n_2_1, '0']
+- [blocks_multiply_const_vxx_3, '0', qtgui_const_sink_x_0_1_0, '2']
+- [blocks_multiply_const_vxx_3_0, '0', digital_symbol_sync_xx_0_0, '0']
+- [blocks_multiply_xx_0, '0', single_pole_iir_filter_xx_2_0_0, '0']
 - [blocks_multiply_xx_1, '0', virtual_sink_2, '0']
 - [blocks_null_source_0, '0', channels_channel_model_0, '0']
 - [blocks_packed_to_unpacked_xx_0, '0', blocks_throttle2_0, '0']
@@ -3587,11 +3948,18 @@ connections:
 - [digital_costas_loop_cc_0, '0', qtgui_const_sink_x_0_1_0, '1']
 - [digital_costas_loop_cc_0, '0', qtgui_eye_sink_x_1, '0']
 - [digital_ofdm_cyclic_prefixer_0, '0', blocks_multiply_const_vxx_1_0, '0']
+- [digital_symbol_sync_xx_0, '0', blocks_delay_1, '0']
+- [digital_symbol_sync_xx_0, '0', blocks_multiply_xx_0, '0']
+- [digital_symbol_sync_xx_0, '0', blocks_multiply_xx_0, '1']
+- [digital_symbol_sync_xx_0, '0', blocks_multiply_xx_0, '2']
+- [digital_symbol_sync_xx_0, '0', blocks_multiply_xx_0, '3']
 - [digital_symbol_sync_xx_0, '0', digital_costas_loop_cc_0, '0']
 - [digital_symbol_sync_xx_0, '0', qtgui_const_sink_x_0_1_0, '0']
+- [digital_symbol_sync_xx_0_0, '0', qtgui_const_sink_x_0_1_0_0, '0']
 - [epy_block_0, '0', fft_vxx_0, '0']
 - [epy_block_0_0, '0', single_pole_iir_filter_xx_0, '0']
 - [epy_block_1, '0', blocks_delay_0, '0']
+- [epy_block_1, '0', blocks_multiply_const_vxx_3_0, '0']
 - [epy_block_1, '0', digital_symbol_sync_xx_0, '0']
 - [epy_block_1, '0', qtgui_const_sink_x_0_1, '0']
 - [epy_block_1_0, '0', analog_pll_freqdet_cf_0, '0']
@@ -3614,6 +3982,7 @@ connections:
 - [single_pole_iir_filter_xx_2, '0', probe_freq_probe, '0']
 - [single_pole_iir_filter_xx_2, '0', qtgui_number_sink_1, '0']
 - [single_pole_iir_filter_xx_2, '0', qtgui_time_sink_x_2, '0']
+- [single_pole_iir_filter_xx_2_0_0, '0', blocks_complex_to_arg_0, '0']
 - [single_pole_iir_filter_xx_3, '0', channels_channel_model2_0, '1']
 - [single_pole_iir_filter_xx_3, '0', qtgui_number_sink_2, '0']
 - [uhd_usrp_source_0, '0', rational_resampler_xxx_1, '0']
